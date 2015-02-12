@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,12 +72,16 @@ public class FriendListFragment extends ListFragment{
                 }
                 if (totalFriends > 0) {
                     float payingAmountPerPerson = totalAmount/totalFriends;
-                    Intent resultIntent = new Intent(getActivity(), ResultActivity.class);
                     for (Friend f:friendsAdded){
                         f.setMoney(f.getMoney() - payingAmountPerPerson);
                     }
-                    resultIntent.putParcelableArrayListExtra(Friend.FRIEND_PARCELABLE_ARRAY, (ArrayList<? extends android.os.Parcelable>) friendsAdded);
-                    startActivity(resultIntent);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList(Friend.FRIEND_PARCELABLE_ARRAY, (ArrayList<? extends android.os.Parcelable>) friendsAdded);
+                    ResultFragment resultFragment = new ResultFragment();
+                    resultFragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, resultFragment).addToBackStack(null).
+                            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).commit();
                 } else {
                     Toast.makeText(getActivity(),"You haven't added any friend",Toast.LENGTH_SHORT).show();
                 }

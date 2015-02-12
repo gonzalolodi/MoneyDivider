@@ -27,24 +27,24 @@ public class ResultFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_result, container, false);
-        return rootView;
-    }
-
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         prepareListView();
+        return rootView;
     }
 
     private void prepareListView() {
         List<Friend> entries = new ArrayList<>();
         mFriendAdapter = new FriendAdapter(getActivity(), entries);
         setListAdapter(mFriendAdapter);
-        mFriends = getActivity().getIntent().getParcelableArrayListExtra(Friend.FRIEND_PARCELABLE_ARRAY);
+        mFriends = this.getArguments().getParcelableArrayList(Friend.FRIEND_PARCELABLE_ARRAY);
         for (Friend f:mFriends) {
             mFriendAdapter.add(f);
         }
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+
 }
