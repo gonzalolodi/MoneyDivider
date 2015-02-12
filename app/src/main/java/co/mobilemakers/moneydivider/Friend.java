@@ -20,6 +20,10 @@ public class Friend implements Parcelable{
         this.money = money;
     }
 
+    public Friend(){
+
+    }
+
     public String getName() {
         return name;
     }

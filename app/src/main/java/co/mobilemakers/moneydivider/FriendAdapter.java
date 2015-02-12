@@ -48,7 +48,7 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
             TextView textViewName = (TextView) rowView.findViewById(R.id.text_view_friend_name);
             textViewName.setText(mFriends.get(position).getName());
             TextView textViewMoney = (TextView) rowView.findViewById(R.id.text_view_friend_credit);
-            textViewMoney.setText(Float.toString(mFriends.get(position).getMoney()));
+            textViewMoney.setText("$" + Float.toString(mFriends.get(position).getMoney()));
         }
     }
 }

@@ -19,6 +19,7 @@ public class ResultFragment extends ListFragment {
 
     FriendAdapter mFriendAdapter;
     ArrayList<Friend> mFriends;
+    ArrayList<Friend> mResultFriendDebts;
 
     public ResultFragment() {
     }
@@ -36,7 +37,33 @@ public class ResultFragment extends ListFragment {
         mFriendAdapter = new FriendAdapter(getActivity(), entries);
         setListAdapter(mFriendAdapter);
         mFriends = this.getArguments().getParcelableArrayList(Friend.FRIEND_PARCELABLE_ARRAY);
-        for (Friend f:mFriends) {
+        mResultFriendDebts = new ArrayList<Friend>();
+        for (Friend f:mFriends){
+            if (f.getMoney() < 0 ) {
+                for (Friend f2:mFriends){
+                    if (f2.getMoney() > 0) {
+                        Friend resultFriend = new Friend();
+                        if (Math.abs(f.getMoney()) >= f2.getMoney()) {
+                            resultFriend.setName(f.getName() + " has to pay " + f2.getName() + ":");
+                            resultFriend.setMoney(f2.getMoney());
+                            f.setMoney(f.getMoney() + f2.getMoney());
+                            f2.setMoney(0);
+                            mResultFriendDebts.add(resultFriend);
+                        } else {
+                            if (Math.abs(f.getMoney()) < f2.getMoney()){
+                                resultFriend.setName(f.getName() + " has to pay " + f2.getName() + ":");
+                                f2.setMoney(f2.getMoney() - Math.abs(f.getMoney()));
+                                resultFriend.setMoney(Math.abs(f.getMoney()));
+                                f.setMoney(0);
+                                mResultFriendDebts.add(resultFriend);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (Friend f:mResultFriendDebts) {
             mFriendAdapter.add(f);
         }
     }
