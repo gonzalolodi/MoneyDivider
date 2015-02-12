@@ -45,9 +45,9 @@ public class AddFriendFragment extends Fragment {
     private Intent getResultIntent() {
         Intent intentAdd = new Intent();
         intentAdd.putExtra(Friend.FRIEND_NAME, mEditTextName.getText().toString());
-        int money = 0;
+        float money = 0;
         if (!TextUtils.isEmpty(mEditTextMoney.getText())){
-            money = Integer.parseInt(mEditTextMoney.getText().toString());
+            money = Float.parseFloat(mEditTextMoney.getText().toString());
         }
         intentAdd.putExtra(Friend.FRIEND_MONEY, money);
         return intentAdd;

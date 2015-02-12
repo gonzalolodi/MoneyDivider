@@ -1,30 +1,50 @@
 package co.mobilemakers.moneydivider;
 
-
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A placeholder fragment containing a simple view.
  */
-public class ResultFragment extends Fragment {
+public class ResultFragment extends ListFragment {
 
+    FriendAdapter mFriendAdapter;
+    ArrayList<Friend> mFriends;
 
     public ResultFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_result, container, false);
+        return rootView;
     }
 
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        prepareListView();
+    }
+
+    private void prepareListView() {
+        List<Friend> entries = new ArrayList<>();
+        mFriendAdapter = new FriendAdapter(getActivity(), entries);
+        setListAdapter(mFriendAdapter);
+        mFriends = getActivity().getIntent().getParcelableArrayListExtra(Friend.FRIEND_PARCELABLE_ARRAY);
+        for (Friend f:mFriends) {
+            mFriendAdapter.add(f);
+        }
+    }
 }

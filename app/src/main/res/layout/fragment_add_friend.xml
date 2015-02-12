@@ -25,9 +25,15 @@
         android:gravity="center_horizontal" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="141dp"
+        android:layout_height="48dp"
         android:text="@string/button_done"
         android:id="@+id/button_done"
+        android:textColor="@color/accent"
+        android:background="@drawable/button_selector"
+        android:shadowColor="@color/primary_dark"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
         android:enabled="false" />
 </LinearLayout>

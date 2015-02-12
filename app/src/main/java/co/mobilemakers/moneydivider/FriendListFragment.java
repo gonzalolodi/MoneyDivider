@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,10 +61,30 @@ public class FriendListFragment extends ListFragment{
                 handled = true;
                 break;
             case R.id.action_done:
-                getFragmentManager().beginTransaction().
+                List<Friend> friendsAdded = mFriendAdapter.mFriends;
+                float totalAmount = 0;
+                int totalFriends = 0;
+                for (Friend f:friendsAdded) {
+                    totalAmount += f.getMoney();
+                    totalFriends ++;
+                }
+                if (totalFriends > 0) {
+                    float payingAmountPerPerson = totalAmount/totalFriends;
+                    Intent resultIntent = new Intent(getActivity(), ResultActivity.class);
+                    for (Friend f:friendsAdded){
+                        f.setMoney(f.getMoney() - payingAmountPerPerson);
+                    }
+                    resultIntent.putParcelableArrayListExtra(Friend.FRIEND_PARCELABLE_ARRAY, (ArrayList<? extends android.os.Parcelable>) friendsAdded);
+                    startActivity(resultIntent);
+                } else {
+                    Toast.makeText(getActivity(),"You haven't added any friend",Toast.LENGTH_SHORT).show();
+                }
+
+
+                /*getFragmentManager().beginTransaction().
                         replace(R.id.container, new ResultFragment()).addToBackStack(null).
                         commit();
-
+*/
         }
         return super.onOptionsItemSelected(item);
 
@@ -87,7 +109,7 @@ public class FriendListFragment extends ListFragment{
         if (requestCode == REQUEST_CODE){
             if (resultCode == Activity.RESULT_OK){
                 String name = data.getStringExtra(Friend.FRIEND_NAME);
-                int money = data.getIntExtra(Friend.FRIEND_MONEY, 0);
+                float money = data.getFloatExtra(Friend.FRIEND_MONEY, 0);
                 Friend friend = new Friend(name, money);
                 mFriendAdapter.add(friend);
             }

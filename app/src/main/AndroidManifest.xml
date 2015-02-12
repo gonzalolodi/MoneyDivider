@@ -20,6 +20,10 @@
             android:name=".AddFriendActivity"
             android:label="@string/title_activity_add_friend" >
         </activity>
+        <activity
+            android:name=".ResultActivity"
+            android:label="@string/title_activity_result" >
+        </activity>
     </application>
 
 </manifest>

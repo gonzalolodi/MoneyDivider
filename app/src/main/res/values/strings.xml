@@ -13,5 +13,6 @@
     <string name="edit_text_friend_name">Enter your friend\'s name here</string>
     <string name="edit_text_amount">Enter the amount of money he spent</string>
     <string name="button_done">Done</string>
+    <string name="title_activity_result">ResultActivity</string>
 
 </resources>
