@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,12 +45,32 @@ public class AddFriendFragment extends Fragment {
     private Intent getResultIntent() {
         Intent intentAdd = new Intent();
         intentAdd.putExtra(Friend.FRIEND_NAME, mEditTextName.getText().toString());
-        intentAdd.putExtra(Friend.FRIEND_MONEY, Integer.parseInt(mEditTextMoney.getText().toString()));
+        int money = 0;
+        if (!TextUtils.isEmpty(mEditTextMoney.getText())){
+            money = Integer.parseInt(mEditTextMoney.getText().toString());
+        }
+        intentAdd.putExtra(Friend.FRIEND_MONEY, money);
         return intentAdd;
     }
 
     private void wireUpEditTexts(View rootView) {
         mEditTextName = (EditText) rootView.findViewById(R.id.edit_text_friend_name);
+        mEditTextName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mButtonDone.setEnabled(!TextUtils.isEmpty(mEditTextName.getText()));
+            }
+        });
         mEditTextMoney = (EditText) rootView.findViewById(R.id.edit_text_amount);
     }
 
